@@ -1,0 +1,4 @@
+{
+  "scriptId": "<your-apps-script-project-id>",
+  "rootDir": "/home/<path-to-this-repository>/src"
+}
