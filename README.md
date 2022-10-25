@@ -1,8 +1,14 @@
 # Metabase API & Google Apps Script: Live-Connected Data Flow Metabase -> Google Sheets
 
-> Setup forked from [fubits1/metabase-google-apps-script](https://github.com/fubits1/metabase-google-apps-script)
+## What is this project about?
 
-Proof-of-concept: Using the Metabase API and Google Apps Script (JavaScript) to run a custom in-cell formula `=fetchCardIdCSV(id)` to fetch the data from a single Metabase query
+One of two Metabase-centric projects (see [Metabase-to-Google](https://github.com/CorrelAid/metabase-to-google)). This project will explore automated approaches to (pre-)curating a Google Spreadsheet from a set of Metabase dashboards and saved queries ("cards") through the [Metabase API](https://www.metabase.com/docs/latest/api-documentation) and Google Apps Script. The imports in the Spreadsheet will stay live-connected to Metabase. Therefore, any changes in Metabase will be refelcted in the Spreadsheet (= "live-connected").
+
+## This Repository
+
+The repository currently contains a proof-of-concept fo using the Metabase API and Google Apps Script (JavaScript) to run a custom in-cell formula in Google Sheets `=fetchCardIdCSV(id)` to fetch the data from a single Metabase query (by card `id`)
+
+> Setup copied from [fubits1/metabase-google-apps-script](https://github.com/fubits1/metabase-google-apps-script)
 
 ## Quickstart
 
@@ -19,11 +25,11 @@ Proof-of-concept: Using the Metabase API and Google Apps Script (JavaScript) to 
       https://your-metabase-url.org/api/session
   ```
 
-### Manual
+### Manually
 
 a) Copy/paste scripts from `./src/` as `.gs` into Apps Script project
 
-### from CLI
+### Programmatically from CLI
 
 b) Local development with `node` & [`clasp`](https://github.com/google/clasp) ([Official Google Apps Script CLI](https://developers.google.com/apps-script/guides/clasp))
 
@@ -41,7 +47,7 @@ b) Local development with `node` & [`clasp`](https://github.com/google/clasp) ([
 
 ### Deploy to Remote Project Environment
 
-**deploy** your local state with `clasp push` to the remote project environment (will overwrite remote state)
+**deploy** your local state with `clasp push` to the remote project environment (will **overwrite** remote state)
 
 ### Remote Script Execution
 
