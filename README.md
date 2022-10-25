@@ -2,7 +2,7 @@
 
 ## What is this project about?
 
-One of two Metabase-centric projects (see [Metabase-to-Google](https://github.com/CorrelAid/metabase-to-google)). This project will explore automated approaches to (pre-)curating a Google Spreadsheet from a set of Metabase dashboards and saved queries ("cards") through the [Metabase API](https://www.metabase.com/docs/latest/api-documentation) and Google Apps Script. The imports in the Spreadsheet will stay live-connected to Metabase. Therefore, any changes in Metabase will be refelcted in the Spreadsheet (= "live-connected").
+One of two Metabase-centric projects (see [Metabase-to-Google](https://github.com/CorrelAid/metabase-to-google)). This project will explore automated approaches to (pre-)curating a Google Spreadsheet from a set of Metabase dashboards and saved queries ("cards") through the [ℹ️ Metabase API](https://www.metabase.com/docs/latest/api-documentation), [ℹ️ Google Apps Script](https://developers.google.com/apps-script), and various Google APIs (e.g. [ℹ️ Sheets API](https://developers.google.com/sheets/api)). The imports in the Spreadsheet will stay live-connected to Metabase. Therefore, any changes in Metabase will be refelcted in the Spreadsheet (= "live-connected").
 
 ## This Repository
 
@@ -31,7 +31,7 @@ a) Copy/paste scripts from `./src/` as `.gs` into Apps Script project
 
 ### Programmatically from CLI
 
-b) Local development with `node` & [`clasp`](https://github.com/google/clasp) ([Official Google Apps Script CLI](https://developers.google.com/apps-script/guides/clasp))
+b) Local development with `node` & [`clasp`](https://github.com/google/clasp) ([ℹ️ Official Google Apps Script CLI](https://developers.google.com/apps-script/guides/clasp) | [🔥 Interactive Tutorial](https://codelabs.developers.google.com/codelabs/clasp/#0) | [Copy & Paste Tutorial](https://developers.google.com/apps-script/quickstart/custom-functions))
 
 - `npm install`
 - **NOTE**: enable Google Apps Script for user: [https://script.google.com/home/usersettings]
