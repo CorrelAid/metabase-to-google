@@ -9,6 +9,7 @@
   "author": "@fubits",
   "license": "ISC",
   "devDependencies": {
-    "clasp": "^1.0.0"
+    "clasp": "^1.0.0",
+    "prettier": "^2.7.1"
   }
 }
