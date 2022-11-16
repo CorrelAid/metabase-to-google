@@ -1,3 +1,8 @@
+/** 
+ * Fetch Card from metabase instance.
+ * @param {number} id - id of a metabase card
+ * @returns {string} - card data as json string
+ */
 async function fetchCardIdJSON(id = 29) {
   const config = {
     muteHttpExceptions: true,
