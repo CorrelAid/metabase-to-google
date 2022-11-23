@@ -9,12 +9,16 @@
 	},
 	"engineStrict": true,
 	"scripts": {
-		"test": "echo \"Error: no test specified\" && exit 1"
+		"test": "echo \"Error: no test specified\" && exit 1",
+		"format": "npx prettier -w src/",
+		"lint": "npx eslint --fix src/"
 	},
 	"author": "@fubits",
 	"license": "ISC",
 	"devDependencies": {
 		"clasp": "^1.0.0",
+		"eslint": "^8.28.0",
+		"eslint-config-google": "^0.14.0",
 		"prettier": "^2.7.1"
 	}
 }

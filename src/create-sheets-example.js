@@ -1,75 +1,100 @@
-function randomData(number_rows, number_cols) {
-  var data = []
-  for (let row_number = 0; row_number < number_rows; row_number++) {
-    var row = []
-    for (let col_number = 0; col_number < number_cols; col_number++) {
-      row.push(Math.random())
+/* exported main */
+
+/** Creates random data for sheet creation examples
+ * @param {number} numberRows - Number of rows of random data.
+ * @param {number} numberCols - Number of columns of random data.
+ * @return {Array.<Array.<number>>} - 2D array of random data.
+ */
+function randomData(numberRows, numberCols) {
+  const data = [];
+  for (let rowNumber = 0; rowNumber < numberRows; rowNumber++) {
+    const row = [];
+    for (let colNumber = 0; colNumber < numberCols; colNumber++) {
+      row.push(Math.random());
     }
-    data.push(row)
+    data.push(row);
   }
-  return data
+  return data;
 }
 
-queryResult1 = QueryResult(
+queryResult1 = new QueryResult(
   (name = 'My first (fake) test query'),
-  (data = randomData(10, 5))
-)
+  (data = randomData(10, 5)),
+);
 
-queryResult2 = QueryResult(
+queryResult2 = new QueryResult(
   (name = 'My second test query'),
-  (data = randomData(2, 2))
-)
+  (data = randomData(2, 2)),
+);
 
-queryResult3 = QueryResult(
+queryResult3 = new QueryResult(
   (name = 'My third test query'),
-  (data = randomData(5, 3))
-)
+  (data = randomData(5, 3)),
+);
 
-queries = [queryResult1, queryResult2, queryResult3]
+queries = [queryResult1, queryResult2, queryResult3];
 
-function getFolder(folder_name) {
-  var files = DriveApp.getFolders()
+/** Gets a folder, but fetching existing folder and creating non-existing ones
+ * @param {string} folderName - Folder to fetch and possibly create.
+ * @return {Object} - Folder Object
+ */
+function getFolder(folderName) {
+  const files = DriveApp.getFolders();
   while (files.hasNext()) {
-    var file = files.next()
-    if (file.getName() === folder_name) {
-      return file
+    const file = files.next();
+    if (file.getName() === folderName) {
+      return file;
     }
   }
-  return DriveApp.createFolder(folder_name)
+  return DriveApp.createFolder(folderName);
 }
 
+/** Creates a spreadsheet in a specific drive folder
+ * @param {string} name - Name of the spreadsheet to create.
+ * @param {string} folderName - Folder were to create the spreadsheet.
+ * @return {Object} - Sheet object.
+ */
 function createEmptySpreadsheet(
   name = 'GAS_TEST_SHEET',
-  folder_name = 'my_gs_tests'
+  folderName = 'my_gs_tests',
 ) {
-  let folder = getFolder(folder_name)
-  let sheet = SpreadsheetApp.create(name)
-  let file = DriveApp.getFileById(sheet.getId())
-  file.moveTo(folder)
-  return sheet
+  const folder = getFolder(folderName);
+  const sheet = SpreadsheetApp.create(name);
+  const file = DriveApp.getFileById(sheet.getId());
+  file.moveTo(folder);
+  return sheet;
 }
 
+/** Fills a spreadsheet with a data matrix
+ * @param {Object} spreadSheet - Spreadsheet to be filled with values.
+ * @param {Array<Array.<number>>} values - 2D array of values to be
+ * inserted into the sheet.
+ */
 function fillData(spreadSheet, values) {
-  let number_rows = values.length
-  let number_cols = values[0].length
-  let range = `R1C1:R${number_rows}C${number_cols}`
-  spreadSheet.getRange(range).setValues(values)
+  const numberRows = values.length;
+  const numberCols = values[0].length;
+  const range = `R1C1:R${numberRows}C${numberCols}`;
+  spreadSheet.getRange(range).setValues(values);
 }
 
+/** Creates and fills a spreadsheet given query results
+ * @param {Object} query - Query to be exported to a spreadsheet
+ */
 function exportQueryToSheet(query) {
-  console.log(`Creating file ${query.name}`)
-  spreadSheet = createEmptySpreadsheet((name = query.name))
+  console.log(`Creating file ${query.name}`);
+  spreadSheet = createEmptySpreadsheet((name = query.name));
   try {
-    fillData(spreadSheet, query.data)
+    fillData(spreadSheet, query.data);
   } catch (error) {
-    console.error(error)
-    console.log(`Deleting file ${query.name}.`)
-    DriveApp.removeFile(DriveApp.getFileById(spreadSheet.getId()))
+    console.error(error);
+    console.log(`Deleting file ${query.name}.`);
+    DriveApp.removeFile(DriveApp.getFileById(spreadSheet.getId()));
   }
 }
 
+/** GS entrypoint */
 function main() {
   for (query of queries) {
-    exportQueryToSheet(query)
+    exportQueryToSheet(query);
   }
 }

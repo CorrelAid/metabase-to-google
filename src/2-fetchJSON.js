@@ -1,13 +1,15 @@
-/** 
- * Fetch Card from metabase instance.
+/* exported fetchCardIdJSON */
+
+/**
+ * Fetch Card from metabase instance as a json
  * @param {number} id - id of a metabase card
- * @returns {string} - card data as json string
+ * @return {string} - card data as json string
  */
 async function fetchCardIdJSON(id = 29) {
   const config = {
     muteHttpExceptions: true,
-    method: "POST",
-    headers: { "X-Metabase-Session": token },
+    method: 'POST',
+    headers: {'X-Metabase-Session': token},
   };
 
   const url = `${baseUrl}/api/card/${id}/query/json`;
