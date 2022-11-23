@@ -2,13 +2,24 @@
 
 ## What is this project about?
 
-One of two Metabase-centric projects (see [Metabase-to-Google](https://github.com/CorrelAid/metabase-to-google)). This project will explore automated approaches to (pre-)curating a Google Spreadsheet from a set of Metabase dashboards and saved queries ("cards") through the [ℹ️ Metabase API](https://www.metabase.com/docs/latest/api-documentation), [ℹ️ Google Apps Script](https://developers.google.com/apps-script), and various Google APIs (e.g. [ℹ️ Sheets API](https://developers.google.com/sheets/api)). The imports in the Spreadsheet will stay live-connected to Metabase. Therefore, any changes in Metabase will be refelcted in the Spreadsheet (= "live-connected").
+One of two Metabase-centric projects (see 
+[Metabase-to-Google](https://github.com/CorrelAid/metabase-to-google)). This project will explore
+automated approaches to (pre-)curating a Google Spreadsheet from a set of Metabase dashboards and
+saved queries ("cards") through the 
+[ℹ️ Metabase API](https://www.metabase.com/docs/latest/api-documentation),
+[ℹ️ Google Apps Script](https://developers.google.com/apps-script), and various Google APIs
+(e.g. [ℹ️ Sheets API](https://developers.google.com/sheets/api)). The imports in the Spreadsheet
+will stay live-connected to Metabase. Therefore, any changes in Metabase will be refelcted in the
+Spreadsheet (= "live-connected").
 
 ## This Repository
 
-The repository currently contains a proof-of-concept fo using the Metabase API and Google Apps Script (JavaScript) to run a custom in-cell formula in Google Sheets `=fetchCardIdCSV(id)` to fetch the data from a single Metabase query (by card `id`)
+The repository currently contains a proof-of-concept for using the Metabase API and Google Apps
+Script (JavaScript) to run a custom in-cell formula in Google Sheets `=fetchCardIdCSV(id)`to fetch
+the data from a single Metabase query (by card `id`)
 
 > Setup copied from [fubits1/metabase-google-apps-script](https://github.com/fubits1/metabase-google-apps-script)
+
 
 ## Quickstart
 
@@ -31,13 +42,17 @@ a) Copy/paste scripts from `./src/` as `.gs` into Apps Script project
 
 ### Programmatically from CLI
 
-b) Local development with `node` & [`clasp`](https://github.com/google/clasp) ([ℹ️ Official Google Apps Script CLI](https://developers.google.com/apps-script/guides/clasp) | [🔥 Interactive Tutorial](https://codelabs.developers.google.com/codelabs/clasp/#0) | [Copy & Paste Tutorial](https://developers.google.com/apps-script/quickstart/custom-functions))
+b) Local development with `node` & [`clasp`](https://github.com/google/clasp)
+([ℹ️ Official Google Apps Script CLI](https://developers.google.com/apps-script/guides/clasp)
+| [🔥 Interactive Tutorial](https://codelabs.developers.google.com/codelabs/clasp/#0)
+| [Copy & Paste Tutorial](https://developers.google.com/apps-script/quickstart/custom-functions))
 
 - `npm install`
 - **NOTE**: enable Google Apps Script for user: [https://script.google.com/home/usersettings]
 - `clasp login`
 - get Script ID `<scriptID>` from Apps Script GUI
-- copy the project config file example with `cp .clasp.json.example .clasp.json` and add ID and folder to `.clasp.json` file
+- copy the project config file example with `cp .clasp.json.example .clasp.json` and add ID and
+  folder to `.clasp.json` file
   - (or if this repository were empty: clone from remote with `clasp clone <scriptID>`)
 - open Remote / Apps Script GUI (browser) with `clasp open`
 
@@ -47,8 +62,53 @@ b) Local development with `node` & [`clasp`](https://github.com/google/clasp) ([
 
 ### Deploy to Remote Project Environment
 
-**deploy** your local state with `clasp push` to the remote project environment (will **overwrite** remote state)
+**deploy** your local state with `clasp push` to the remote project environment
+(will **overwrite** remote state)
 
-### Remote Script Execution
+## Dev Env Setup
 
-> TBD
+1. Clone the repository
+
+        git clone git@github.com/CorrelAid/metabase-to-google.git
+
+1. Install dependencies
+
+        npm install
+
+1. Create clasp configuration file
+
+        cp .clasp.json.example .clasp.json
+
+1. Create a google apps script project [here](https://script.google.com/home)
+
+1. Update `.clasp.json` with the fill path to the `src` folder and with a google script ID for a
+   standalone script.
+
+1. Sign into google with clasp.
+
+        clasp login
+
+1. Push the local project to google apps script.
+
+        clasp push
+
+1. Configure google apps script properties (key-value pairs).
+
+    - `clasp open`
+    - got to "Project Settings"
+    - enter key-value pairs for
+        - "token": <your metabase session token>
+        - "url": <url of the metabase instance>
+
+## Quality Assurance
+
+Currently the following quality assurance is set up together with npm shortcuts for running
+them on the source folder.
+
+- formatter: `prettier`
+
+        npm run format
+
+- linter: `eslint`
+
+        npm run lint

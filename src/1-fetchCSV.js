@@ -1,8 +1,15 @@
+/* exported fetchCardIdCSV */
+
+/**
+ * Fetch Card from metabase instance as csv
+ * @param {number} id - id of a metabase card
+ * @return {string} - card data as an 2d array
+ */
 async function fetchCardIdCSV(id = 28) {
   const config = {
     muteHttpExceptions: true,
-    method: "POST",
-    headers: { "X-Metabase-Session": token },
+    method: 'POST',
+    headers: {'X-Metabase-Session': token},
   };
 
   const url = `${baseUrl}/api/card/${id}/query/csv`;
@@ -12,7 +19,7 @@ async function fetchCardIdCSV(id = 28) {
 
   // Parse Response Blob to String
   const result = response.getBlob().getDataAsString();
-  //console.log(result);
+  // console.log(result);
 
   // Parse String to CSV (GAS Generic Utility)
   const parsed = Utilities.parseCsv(result);
@@ -21,8 +28,8 @@ async function fetchCardIdCSV(id = 28) {
   parsed.forEach((row) => (row[indexNumeric] = Number(row[indexNumeric])));
 
   // Rename Columns
-  parsed[0][0] = "Level";
-  parsed[0][indexNumeric] = "Count";
+  parsed[0][0] = 'Level';
+  parsed[0][indexNumeric] = 'Count';
   // console.log(parsed);
 
   return parsed;
