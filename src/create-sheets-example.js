@@ -71,9 +71,10 @@ function createEmptySpreadsheet(
 function exportQueryToSheet(query) {
   console.log(`Creating file ${query.name}`);
   spreadSheet = createEmptySpreadsheet((name = query.name));
+  sheet = spreadSheet.getSheets()[0];
   try {
-    fillData(spreadSheet, query.data);
-    buildChart(spreadSheet, query.data, query.name);
+    fillData(sheet, query.data);
+    buildChart(sheet, query.data, query.name);
   } catch (error) {
     console.error(error);
     console.log(`Deleting file ${query.name}.`);
