@@ -12,19 +12,17 @@ function fillData(sheet, values) {
   sheet.getRange(range).setValues(values);
 }
 
-/** Embeds a Chart into a given sheet
+/** Embeds a Chart into a sheet where fillData() has been called.
+ * Assumes that tabular data is located in the sheet's upper left corner.
  * @param {Object} sheet - sheet to embed a chart into.
  * @param {Array<Array.<number>>} values - 2D array of values inside \
  * the sheet, to add as range to the chart builder.
  * @param {String} chartTitle - query name or sheet title.
  */
 function buildChart(sheet, values, chartTitle) {
-  // Get sheets from sheet.
-  const chartSheet = sheet.getSheets()[0];
-  // Build chart for the sheet.
-  const chartBuilder = chartSheet.newChart()
+  const chartBuilder = sheet.newChart()
     .setChartType(Charts.ChartType.BAR)
-    .addRange(chartSheet.getRange(2, 1, values.length, values[0].length))
+    .addRange(sheet.getRange(2, 1, values.length, values[0].length))
     .setPosition(2, 6, 0, 0)
     .setOption('title', `${chartTitle}`)
     .setOption('titleTextStyle', {
@@ -34,7 +32,5 @@ function buildChart(sheet, values, chartTitle) {
     .setOption('vAxis.title', `${values[0][0]}`)
     .setOption('hAxis.title', `${values[0][1]}`)
     .build();
-
-  // Insert chart into sheet.
-  chartSheet.insertChart(chartBuilder);
+  sheet.insertChart(chartBuilder);
 }
