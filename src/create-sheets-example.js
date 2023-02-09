@@ -59,22 +59,10 @@ function createEmptySpreadsheet(
   folderName = 'my_gs_tests',
 ) {
   const folder = getFolder(folderName);
-  const sheet = SpreadsheetApp.create(name);
-  const file = DriveApp.getFileById(sheet.getId());
+  const spreadSheet = SpreadsheetApp.create(name);
+  const file = DriveApp.getFileById(spreadSheet.getId());
   file.moveTo(folder);
-  return sheet;
-}
-
-/** Fills a spreadsheet with a data matrix
- * @param {Object} spreadSheet - Spreadsheet to be filled with values.
- * @param {Array<Array.<number>>} values - 2D array of values to be
- * inserted into the sheet.
- */
-function fillData(spreadSheet, values) {
-  const numberRows = values.length;
-  const numberCols = values[0].length;
-  const range = `R1C1:R${numberRows}C${numberCols}`;
-  spreadSheet.getRange(range).setValues(values);
+  return spreadSheet;
 }
 
 /** Creates and fills a spreadsheet given query results
@@ -83,8 +71,10 @@ function fillData(spreadSheet, values) {
 function exportQueryToSheet(query) {
   console.log(`Creating file ${query.name}`);
   spreadSheet = createEmptySpreadsheet((name = query.name));
+  sheet = spreadSheet.getSheets()[0];
   try {
-    fillData(spreadSheet, query.data);
+    fillData(sheet, query.data);
+    buildChart(sheet, query.data, query.name);
   } catch (error) {
     console.error(error);
     console.log(`Deleting file ${query.name}.`);
