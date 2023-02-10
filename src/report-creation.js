@@ -1,4 +1,4 @@
-/* exported buildChart */
+/* exported buildChart, fillData */
 
 /** Fills a sheet with a data matrix
  * @param {Object} sheet - sheet to be filled with values.
@@ -20,7 +20,8 @@ function fillData(sheet, values) {
  * @param {String} chartTitle - query name or sheet title.
  */
 function buildChart(sheet, values, chartTitle) {
-  const chartBuilder = sheet.newChart()
+  const chartBuilder = sheet
+    .newChart()
     .setChartType(Charts.ChartType.BAR)
     .addRange(sheet.getRange(2, 1, values.length, values[0].length))
     .setPosition(2, 6, 0, 0)
@@ -28,7 +29,7 @@ function buildChart(sheet, values, chartTitle) {
     .setOption('titleTextStyle', {
       color: 'black',
       fontSize: 18,
-    } )
+    })
     .setOption('vAxis.title', `${values[0][0]}`)
     .setOption('hAxis.title', `${values[0][1]}`)
     .build();

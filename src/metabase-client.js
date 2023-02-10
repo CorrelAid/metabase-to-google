@@ -1,4 +1,4 @@
-/* exported runGetQueryExample */
+/* exported runGetQueryExample, test */
 
 /**
  * Client for the Metabase API
@@ -51,7 +51,7 @@ class MetabaseClient {
     if (response.getResponseCode() === 401 && autoTokenRenewal) {
       console.log('retry authentication');
       delete this.token;
-      response = this.authorized_fetch(url, config, false);
+      response = this.authorizedFetch(url, config, false);
     }
     if (response.getResponseCode() !== 200) {
       throw new Error(
@@ -78,6 +78,7 @@ class MetabaseClient {
       },
       payload: JSON.stringify(body),
     };
+
     const response = UrlFetchApp.fetch(tokenUrl, config);
     const respJson = JSON.parse(response);
     this.token = respJson['id'];
@@ -108,6 +109,48 @@ class MetabaseClient {
     const url = `${this.metabaseUrl}/api/card/${id}`;
     return this.authorizedFetch(url);
   }
+
+  /**
+   * Get get all collections
+   * @return {Array.<Object>} - Collections
+   */
+  getCollections() {
+    const url = `${this.metabaseUrl}/api/collection/`;
+    return this.authorizedFetch(url);
+  }
+
+  /**
+   * Get get items in a collection
+   * @param {int} collectionId - Id of the collection to get the items for.
+   * @return {Array.<Object>} - Items
+   */
+  getItems(collectionId) {
+    const url = `${this.metabaseUrl}/api/collection/${collectionId}/items`;
+    return this.authorizedFetch(url);
+  }
+}
+
+/**
+ * Fetches names and ids for all cards in all collections
+ * @param {Object} client - Instance of the metabase client
+ * @return {Array.<Object>} - All cards
+ */
+function getAllCards(client) {
+  const collection = client.getCollections();
+  const allCards = collection
+    .flatMap((collection) =>
+      client.getItems(collection['id'])['data'].map((item) => {
+        item['collection'] = collection['name'];
+        return item;
+      }),
+    )
+    .filter((item) => item['model'] === 'card')
+    .map((card) => {
+      const {collection, name, id} = card;
+      return [collection, name, id];
+    });
+  allCards.unshift(['collection', 'card_name', 'card_id']);
+  return allCards;
 }
 
 /**
@@ -136,5 +179,20 @@ function runGetQueryExample() {
     password,
     'https://metabase.citizensforeurope.org',
   );
-  console.log(getQueryResult(client, 150));
+  console.log(getQueryResult(client, 147));
+}
+
+/**
+ * Test function
+ */
+function test() {
+  const scriptProperties = PropertiesService.getScriptProperties();
+  const user = scriptProperties.getProperty('user');
+  const password = scriptProperties.getProperty('password');
+  const client = new MetabaseClient(
+    user,
+    password,
+    'https://metabase.citizensforeurope.org',
+  );
+  console.log(getAllCards(client));
 }
