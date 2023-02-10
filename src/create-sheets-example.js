@@ -1,11 +1,11 @@
-/* exported main */
+/* exported main, createEmptySpreadsheet */
 
 /** Creates random data for sheet creation examples
  * @param {number} numberRows - Number of rows of random data.
  * @param {number} numberCols - Number of columns of random data.
  * @return {Array.<Array.<number>>} - 2D array of random data.
  */
-function randomData(numberRows, numberCols) {
+/* function randomData(numberRows, numberCols) {
   const data = [];
   for (let rowNumber = 0; rowNumber < numberRows; rowNumber++) {
     const row = [];
@@ -33,7 +33,7 @@ queryResult3 = new QueryResult(
 );
 
 queries = [queryResult1, queryResult2, queryResult3];
-
+*/
 /** Gets a folder, but fetching existing folder and creating non-existing ones
  * @param {string} folderName - Folder to fetch and possibly create.
  * @return {Object} - Folder Object
@@ -59,32 +59,31 @@ function createEmptySpreadsheet(
   folderName = 'my_gs_tests',
 ) {
   const folder = getFolder(folderName);
-  const spreadSheet = SpreadsheetApp.create(name);
-  const file = DriveApp.getFileById(spreadSheet.getId());
+  const sheet = SpreadsheetApp.create(name);
+  const file = DriveApp.getFileById(sheet.getId());
   file.moveTo(folder);
-  return spreadSheet;
+  return sheet;
 }
 
 /** Creates and fills a spreadsheet given query results
  * @param {Object} query - Query to be exported to a spreadsheet
  */
-function exportQueryToSheet(query) {
+/* function exportQueryToSheet(query) {
   console.log(`Creating file ${query.name}`);
   spreadSheet = createEmptySpreadsheet((name = query.name));
-  sheet = spreadSheet.getSheets()[0];
   try {
-    fillData(sheet, query.data);
-    buildChart(sheet, query.data, query.name);
+    fillData(spreadSheet, query.data);
   } catch (error) {
     console.error(error);
     console.log(`Deleting file ${query.name}.`);
     DriveApp.removeFile(DriveApp.getFileById(spreadSheet.getId()));
   }
 }
-
+*/
 /** GS entrypoint */
-function main() {
+/* function main() {
   for (query of queries) {
     exportQueryToSheet(query);
   }
 }
+*/

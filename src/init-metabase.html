@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <base target="_top" />
+    <link
+      rel="stylesheet"
+      href="https://ssl.gstatic.com/docs/script/css/add-ons1.css"
+    />
+  </head>
+  <body>
+    <div>
+      <label for="fname">Username</label><br />
+      <input type="email" id="user" name="user" /><br />
+
+      <label for="fname">Password</label><br />
+      <input type="password" id="pwd" name="pwd" /><br />
+
+      <input
+        type="button"
+        value="Submit"
+        class="action"
+        onclick="form_data()"
+      />
+      <input type="button" value="Close" onclick="google.script.host.close()" />
+    </div>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <script>
+      function form_data() {
+        var user = $('input[name=user]').val();
+        var pwd = $('input[name=pwd]').val();
+        google.script.run
+          .withSuccessHandler()
+          .libraryBackendCall('processCredentials', user, pwd);
+        closeIt();
+      }
+      function closeIt() {
+        google.script.host.close();
+      }
+    </script>
+  </body>
+</html>

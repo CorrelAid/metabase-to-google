@@ -100,6 +100,45 @@ b) Local development with `node` & [`clasp`](https://github.com/google/clasp)
         - "token": <your metabase session token>
         - "url": <url of the metabase instance>
 
+## Control sheet setup
+
+1. Make sure the script project "metabase-to-google" is setup as described [above](#dev-env-setup).
+   This means it either setup on your own account or you having access to a setup of the script project on
+   another (possibly shared account).
+
+1. In the metabase-to-google script project click on `Deploy` and then `New Deployment`.
+
+1. Click on `Select type` and choose `Library`.
+
+1. Enter a description and click `Deploy`.
+
+1. Create a new Google spreadsheet file
+
+1. Click on `Extensions` and then `Apps Script`. This opens a project tied to this Spreadsheet.
+
+1. In the sidebar click on `Editor` and then on `+` next to `Library`. Add the script ID of the metbase-to-google
+    script project. As Version you can either pick the deployment you created or pick HEAD for development purpouses.
+    Not that the library usage wont work unless there is at least one deployment even if HEAD is selected.
+
+1. Name the library for instance `metabasetogoogle`
+
+1. Create a `init.gs` file and copy the content from below. In case your library is not named
+   `metabasetogoogle` you have to make the corresponding substitutions in the snippet.
+
+```JavaScript
+function onOpen(e){
+  metabasetogoogle.onOpen(e,'metabasetogoogle');
+};
+
+function libraryBackendCall(functionToCall,...args) {
+   metabasetogoogle[functionToCall](args);
+
+}
+```
+
+The setup is complete now and refreshing the Spreadsheet should create the `Metabase` custom
+menu.
+
 ## Quality Assurance
 
 Currently the following quality assurance is set up together with npm shortcuts for running
