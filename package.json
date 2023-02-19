@@ -9,19 +9,17 @@
 	},
 	"engineStrict": true,
 	"scripts": {
-		"test": "echo \"Error: no test specified\" && exit 1",
+		"test": "npx jasmine",
 		"format": "npx prettier -w src/",
 		"lint": "npx eslint --fix src/"
 	},
 	"author": "@fubits",
 	"license": "ISC",
 	"devDependencies": {
-		"clasp": "^1.0.0",
+		"@google/clasp": "^2.4.2",
 		"eslint": "^8.28.0",
 		"eslint-config-google": "^0.14.0",
+		"jasmine": "^4.5.0",
 		"prettier": "^2.7.1"
-	},
-	"dependencies": {
-		"@google/clasp": "^2.4.2"
 	}
 }
