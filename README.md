@@ -2,68 +2,22 @@
 
 ## What is this project about?
 
-One of two Metabase-centric projects (see 
-[Metabase-to-Google](https://github.com/CorrelAid/metabase-to-google)). This project will explore
-automated approaches to (pre-)curating a Google Spreadsheet from a set of Metabase dashboards and
-saved queries ("cards") through the 
+This project connects Metabase and Google Spreadsheets. It explores
+automated approaches to (pre-)curating Google Spreadsheets from a set of Metabase dashboards and
+saved Metabase  queries (called cards in Metabase) through the 
 [ℹ️ Metabase API](https://www.metabase.com/docs/latest/api-documentation),
 [ℹ️ Google Apps Script](https://developers.google.com/apps-script), and various Google APIs
-(e.g. [ℹ️ Sheets API](https://developers.google.com/sheets/api)). The imports in the Spreadsheet
-will stay live-connected to Metabase. Therefore, any changes in Metabase will be refelcted in the
-Spreadsheet (= "live-connected").
+(e.g. [ℹ️ Sheets API](https://developers.google.com/sheets/api)). 
+
+The goal is to make it easy to keep the exported Metabase data in the spreadsheets up date.
+Currently this is done by making updates very easy, but in the future it might even be automated entirely ('live-connected').
 
 ## This Repository
 
-The repository currently contains a proof-of-concept for using the Metabase API and Google Apps
-Script (JavaScript) to run a custom in-cell formula in Google Sheets `=fetchCardIdCSV(id)`to fetch
-the data from a single Metabase query (by card `id`)
+This repository contains JavaScript code that is intended to be deployed as a Google Apps script library, which in turn should be used in a containerized script of a Google SpreadSheet. Detailed setup instructions are found [below](#control-sheet-setup).
 
-> Setup copied from [fubits1/metabase-google-apps-script](https://github.com/fubits1/metabase-google-apps-script)
+After the setup, the library proved the additional `Metabase` menu in the SpreadSheet, which can be used to access data from Metabase and interactively create additional SpreadSheets with data from Metabase queries.
 
-
-## Quickstart
-
-> pre-requisite: Metabase session token  
-> currently, token expires every 2 weeks for security reasons
-
-- cf. [fubits1/metabase-api-demo](https://github.com/fubits1/metabase-api-demo) (Shell script work-in-progress)
-- fetch with:
-
-  ```{bash}
-  curl -X POST \
-      -H "Content-Type: application/json" \
-      -d '{"username": "user", "password": "password"}' \
-      https://your-metabase-url.org/api/session
-  ```
-
-### Manually
-
-a) Copy/paste scripts from `./src/` as `.gs` into Apps Script project
-
-### Programmatically from CLI
-
-b) Local development with `node` & [`clasp`](https://github.com/google/clasp)
-([ℹ️ Official Google Apps Script CLI](https://developers.google.com/apps-script/guides/clasp)
-| [🔥 Interactive Tutorial](https://codelabs.developers.google.com/codelabs/clasp/#0)
-| [Copy & Paste Tutorial](https://developers.google.com/apps-script/quickstart/custom-functions))
-
-- `npm install`
-- **NOTE**: enable Google Apps Script for user: [https://script.google.com/home/usersettings]
-- `clasp login`
-- get Script ID `<scriptID>` from Apps Script GUI
-- copy the project config file example with `cp .clasp.json.example .clasp.json` and add ID and
-  folder to `.clasp.json` file
-  - (or if this repository were empty: clone from remote with `clasp clone <scriptID>`)
-- open Remote / Apps Script GUI (browser) with `clasp open`
-
-### Get Remote State
-
-- pull with `clasp pull` - **WARN** will overwrite local state
-
-### Deploy to Remote Project Environment
-
-**deploy** your local state with `clasp push` to the remote project environment
-(will **overwrite** remote state)
 
 ## Dev Env Setup
 
@@ -79,7 +33,7 @@ b) Local development with `node` & [`clasp`](https://github.com/google/clasp)
 
         cp .clasp.json.example .clasp.json
 
-1. Create a google apps script project [here](https://script.google.com/home)
+1. Create a google apps script project [here](https://script.google.com/home). **NOTE**: You have to [enable Google Apps Script for your user](https://script.google.com/home/usersettings) if you haven't done it already.
 
 1. Update `.clasp.json` with the fill path to the `src` folder and with a google script ID for a
    standalone script.
@@ -151,3 +105,7 @@ them on the source folder.
 - linter: `eslint`
 
         npm run lint
+
+- unit testing: `jasmine`
+
+        npm run test

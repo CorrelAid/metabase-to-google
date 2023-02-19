@@ -1,4 +1,4 @@
-/* exported runGetQueryExample, test */
+/* exported getAllCards, getQueryResult */
 
 /**
  * Client for the Metabase API
@@ -11,17 +11,32 @@ class MetabaseClient {
    * @param {string} username - Metabase username
    * @param {string} password - Metabase password
    * @param {string} metabaseUrl - Metabase URL
+   * @param {Object}  properties - Just for testing.
+   *    Defaults to PropertiesService.getUserProperties() if undefined.
+   *    Used for dependency injection when testing locally.
+   * @param {Object} urlFetcher - Just for testing.
+   *    Defaults to the Google Apps script specific UrlFetchApp.fetch
    */
-  constructor(username, password, metabaseUrl) {
+  constructor(username, password, metabaseUrl, properties, urlFetcher) {
     this.username = username;
     this.password = password;
     this.metabaseUrl = metabaseUrl;
 
-    const scriptProperties = PropertiesService.getUserProperties();
+    if (typeof properties === 'undefined') {
+      this.properties = PropertiesService.getUserProperties();
+    } else {
+      this.properties = properties;
+    }
 
-    if (scriptProperties.getKeys().includes('token')) {
+    if (this.properties.getKeys().includes('token')) {
       console.log('Using cached token');
-      this.token = scriptProperties.getProperty('token');
+      this.token = this.properties.getProperty('token');
+    }
+
+    if (typeof urlFetcher === 'undefined') {
+      this.urlFetcher = UrlFetchApp.fetch;
+    } else {
+      this.urlFetcher = urlFetcher;
     }
   }
 
@@ -47,11 +62,11 @@ class MetabaseClient {
     }
     authenticatedConfig['muteHttpExceptions'] = true;
 
-    let response = UrlFetchApp.fetch(url, authenticatedConfig);
+    const response = this.urlFetcher(url, authenticatedConfig);
     if (response.getResponseCode() === 401 && autoTokenRenewal) {
       console.log('retry authentication');
       delete this.token;
-      response = this.authorizedFetch(url, config, false);
+      return this.authorizedFetch(url, config, false);
     }
     if (response.getResponseCode() !== 200) {
       throw new Error(
@@ -79,11 +94,10 @@ class MetabaseClient {
       payload: JSON.stringify(body),
     };
 
-    const response = UrlFetchApp.fetch(tokenUrl, config);
+    const response = this.urlFetcher(tokenUrl, config);
     const respJson = JSON.parse(response);
     this.token = respJson['id'];
-    const scriptProperties = PropertiesService.getUserProperties();
-    scriptProperties.setProperty('token', this.token);
+    this.properties.setProperty('token', this.token);
   }
 
   /**
@@ -167,32 +181,8 @@ function getQueryResult(client, cardId) {
   return new QueryResult(cardDetails['name'], transformedData);
 }
 
-/**
- * Example run
- */
-function runGetQueryExample() {
-  const scriptProperties = PropertiesService.getScriptProperties();
-  const user = scriptProperties.getProperty('user');
-  const password = scriptProperties.getProperty('password');
-  const client = new MetabaseClient(
-    user,
-    password,
-    'https://metabase.citizensforeurope.org',
-  );
-  console.log(getQueryResult(client, 147));
-}
-
-/**
- * Test function
- */
-function test() {
-  const scriptProperties = PropertiesService.getScriptProperties();
-  const user = scriptProperties.getProperty('user');
-  const password = scriptProperties.getProperty('password');
-  const client = new MetabaseClient(
-    user,
-    password,
-    'https://metabase.citizensforeurope.org',
-  );
-  console.log(getAllCards(client));
+// Export node module.
+// Used for local testing in Jasmine only.
+if (typeof module !== 'undefined' && module.hasOwnProperty('exports')) {
+  module.exports = {MetabaseClient, getQueryResult, getAllCards};
 }
