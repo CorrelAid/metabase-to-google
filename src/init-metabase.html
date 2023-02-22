@@ -8,12 +8,31 @@
     />
   </head>
   <body>
+    <? var settings = getUserSettings(); console.log(settings) ?>
     <div>
       <label for="fname">Username</label><br />
-      <input type="email" id="user" name="user" /><br />
+      <input
+        type="email"
+        id="user"
+        name="user"
+        value="<?= settings[0] ?>"
+      /><br />
 
       <label for="fname">Password</label><br />
-      <input type="password" id="pwd" name="pwd" /><br />
+      <input
+        type="password"
+        id="pwd"
+        name="pwd"
+        value="<?= settings[1] ?>"
+      /><br />
+
+      <label for="fname">Metabase Url</label><br />
+      <input
+        type="url"
+        id="metabaseUrl"
+        name="metabaseUrl"
+        value="<?= settings[2] ?>"
+      /><br />
 
       <input
         type="button"
@@ -28,9 +47,10 @@
       function form_data() {
         var user = $('input[name=user]').val();
         var pwd = $('input[name=pwd]').val();
+        var url = $('input[name=metabaseUrl]').val();
         google.script.run
           .withSuccessHandler()
-          .libraryBackendCall('processCredentials', user, pwd);
+          .libraryBackendCall('processCredentials', user, pwd, url);
         closeIt();
       }
       function closeIt() {
