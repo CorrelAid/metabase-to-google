@@ -1,8 +1,7 @@
 {
 	"name": "metabase-google-apps-script",
-	"version": "1.0.0",
-	"description": "",
-	"main": "index.js",
+	"version": "0.1.0",
+	"description": "Google Apps Script library for extracting data from Metabase.",
 	"engines": {
 		"npm": ">=8.0.0 <9.0.0",
 		"node": ">=16.0.0 <17.0.0"
@@ -13,8 +12,12 @@
 		"format": "npx prettier -w src/",
 		"lint": "npx eslint --fix src/"
 	},
-	"author": "@fubits",
-	"license": "ISC",
+    "contributors": [
+        "@fubits",
+        "KonradUdoHannes <konrad.woelms@gmail.com",
+        "ariaguia"
+    ],
+	"license": "MIT",
 	"devDependencies": {
 		"@google/clasp": "^2.4.2",
 		"eslint": "^8.28.0",

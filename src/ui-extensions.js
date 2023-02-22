@@ -1,4 +1,4 @@
-/* exported onOpen */
+/* exported onOpen, getUserSettings */
 
 /**
  * Used to setup Google Apps Script Spreadsheet trigger.
@@ -14,7 +14,32 @@ function onOpen(e, libraryName) {
   ui.createMenu('Metabse')
     .addItem('Initialize Metabase', `${libraryName}.initializeMetabase`)
     .addItem('Preview Query', `${libraryName}.queryPreviewInput`)
+    .addItem('Delete User Data', `${libraryName}.deleteUserData`)
     .addToUi();
+}
+
+/* eslint-disable no-unused-vars */
+/**
+ * Removes metabase specific information, namely email, username and password,
+ * from the users property storage.
+ */
+function deleteUserData() {
+  /* eslint-enable no-unused-vars */
+  PropertiesService.getUserProperties().deleteAllProperties();
+}
+
+/**
+ * Extracts metabase specific configuration from user storage.
+ * This is simply a convenience function to be used inside html templates.
+ * from the users property storage.
+ * @return {Array.<string>} Array with username, password and metabaseUrl.
+ */
+function getUserSettings() {
+  const scriptProperties = PropertiesService.getUserProperties();
+  const user = scriptProperties.getProperty('user');
+  const password = scriptProperties.getProperty('password');
+  const metabaseUrl = scriptProperties.getProperty('metabaseUrl');
+  return [user, password, metabaseUrl];
 }
 
 /* eslint-disable no-unused-vars */
@@ -24,7 +49,9 @@ function onOpen(e, libraryName) {
 function initializeMetabase() {
   /* eslint-enable no-unused-vars */
   const ui = SpreadsheetApp.getUi();
-  const html = HtmlService.createHtmlOutputFromFile('init-metabase')
+
+  const html = HtmlService.createTemplateFromFile('init-metabase')
+    .evaluate()
     .setWidth(450)
     .setHeight(300);
 
@@ -68,18 +95,14 @@ function previewQuery(id) {
   const scriptProperties = PropertiesService.getUserProperties();
   const user = scriptProperties.getProperty('user');
   const password = scriptProperties.getProperty('password');
+  const metabaseUrl = scriptProperties.getProperty('password');
 
-  const client = new MetabaseClient(
-    user,
-    password,
-    'https://metabase.citizensforeurope.org',
-  );
+  const client = new MetabaseClient(user, password, metabaseUrl);
 
   const results = getQueryResult(client, id);
 
   const sheet = spreadSheet.insertSheet('preview');
-  fillData(sheet, results.data);
-  buildChart(sheet, results.data, results.name);
+  fillDataAndChart(sheet, results.data, results.name);
 }
 
 /* eslint-disable no-unused-vars */
@@ -93,14 +116,12 @@ function processCredentials(values) {
   const scriptProperties = PropertiesService.getUserProperties();
   scriptProperties.setProperty('user', values[0]);
   scriptProperties.setProperty('password', values[1]);
+  scriptProperties.setProperty('metabaseUrl', values[2]);
 
   const user = scriptProperties.getProperty('user');
   const password = scriptProperties.getProperty('password');
-  const client = new MetabaseClient(
-    user,
-    password,
-    'https://metabase.citizensforeurope.org',
-  );
+  const metabaseUrl = scriptProperties.getProperty('password');
+  const client = new MetabaseClient(user, password, metabaseUrl);
   const allCards = getAllCards(client);
   console.log(allCards);
   SpreadsheetApp.getActiveSheet()
