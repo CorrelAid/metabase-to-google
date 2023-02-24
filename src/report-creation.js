@@ -61,7 +61,7 @@ function fillDataAndChart(sheet, values, name) {
 function exportQueryToSheet(query) {
   console.log(`Creating file and chart: ${query.name}`);
   spreadSheet = createEmptySpreadsheet((name = query.name));
-  sheet = spreadSheet.getSheets()[0]
+  sheet = spreadSheet.getSheets()[0];
   try {
     fillDataAndChart(sheet, query.data, query.name);
   } catch (error) {

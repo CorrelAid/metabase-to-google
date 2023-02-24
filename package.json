@@ -1,28 +1,36 @@
 {
-	"name": "metabase-google-apps-script",
-	"version": "0.1.0",
-	"description": "Google Apps Script library for extracting data from Metabase.",
-	"engines": {
-		"npm": ">=8.0.0 <9.0.0",
-		"node": ">=16.0.0 <17.0.0"
-	},
-	"engineStrict": true,
-	"scripts": {
-		"test": "npx jasmine",
-		"format": "npx prettier -w src/",
-		"lint": "npx eslint --fix src/"
-	},
-    "contributors": [
-        "@fubits",
-        "KonradUdoHannes <konrad.woelms@gmail.com",
-        "ariaguia"
-    ],
-	"license": "MIT",
-	"devDependencies": {
-		"@google/clasp": "^2.4.2",
-		"eslint": "^8.28.0",
-		"eslint-config-google": "^0.14.0",
-		"jasmine": "^4.5.0",
-		"prettier": "^2.7.1"
-	}
+  "name": "metabase-google-apps-script",
+  "version": "0.1.0",
+  "description": "Google Apps Script library for extracting data from Metabase.",
+  "engines": {
+    "npm": ">=8.0.0 <9.0.0",
+    "node": ">=16.0.0 <17.0.0"
+  },
+  "engineStrict": true,
+  "scripts": {
+    "test": "npx jasmine",
+    "format": "npx prettier -w src/",
+    "quick_format": "npx pretty-quick --staged",
+    "lint": "npx eslint --fix src/",
+    "precommit": "run-s quick_format lint",
+    "init_pre_commit": "husky install"
+  },
+  "contributors": [
+    "@fubits",
+    "KonradUdoHannes <konrad.woelms@gmail.com",
+    "ariaguia"
+  ],
+  "license": "MIT",
+  "devDependencies": {
+    "@google/clasp": "^2.4.2",
+    "eslint": "^8.28.0",
+    "eslint-config-google": "^0.14.0",
+    "husky": "^7.0.2",
+    "jasmine": "^4.5.0",
+    "npm-run-all": "^4.1.5",
+    "prettier": "^2.7.1"
+  },
+  "dependencies": {
+    "pretty-quick": "^3.1.3"
+  }
 }

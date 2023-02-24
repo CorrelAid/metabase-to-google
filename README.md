@@ -4,10 +4,10 @@
 
 This project connects Metabase and Google Spreadsheets. It explores
 automated approaches to (pre-)curating Google Spreadsheets from a set of Metabase dashboards and
-saved Metabase  queries (called cards in Metabase) through the 
+saved Metabase queries (called cards in Metabase) through the
 [ℹ️ Metabase API](https://www.metabase.com/docs/latest/api-documentation),
 [ℹ️ Google Apps Script](https://developers.google.com/apps-script), and various Google APIs
-(e.g. [ℹ️ Sheets API](https://developers.google.com/sheets/api)). 
+(e.g. [ℹ️ Sheets API](https://developers.google.com/sheets/api)).
 
 The goal is to make it easy to keep the exported Metabase data in the spreadsheets up date.
 Currently this is done by making updates very easy, but in the future it might even be automated entirely ('live-connected').
@@ -18,41 +18,51 @@ This repository contains JavaScript code that is intended to be deployed as a Go
 
 After the setup, the library proved the additional `Metabase` menu in the SpreadSheet, which can be used to access data from Metabase and interactively create additional SpreadSheets with data from Metabase queries.
 
-
 ## Dev Env Setup
 
-1. Clone the repository
+1.  Clone the repository
 
         git clone git@github.com/CorrelAid/metabase-to-google.git
 
-1. Install dependencies
+1.  Install dependencies
 
         npm install
 
-1. Create clasp configuration file
+1.  Create clasp configuration file
 
         cp .clasp.json.example .clasp.json
 
-1. Create a google apps script project [here](https://script.google.com/home). **NOTE**: You have to [enable Google Apps Script for your user](https://script.google.com/home/usersettings) if you haven't done it already.
+1.  Create a google apps script project [here](https://script.google.com/home). **NOTE**: You have to [enable Google Apps Script for your user](https://script.google.com/home/usersettings) if you haven't done it already.
 
-1. Update `.clasp.json` with the fill path to the `src` folder and with a google script ID for a
-   standalone script.
+1.  Update `.clasp.json` with the fill path to the `src` folder and with a google script ID for a
+    standalone script.
 
-1. Sign into google with clasp.
+1.  Sign into google with clasp.
 
         clasp login
 
-1. Push the local project to google apps script.
+1.  Push the local project to google apps script.
 
         clasp push
 
-1. Configure google apps script properties (key-value pairs).
+1.  Configure google apps script properties (key-value pairs).
 
     - `clasp open`
     - got to "Project Settings"
     - enter key-value pairs for
-        - "token": <your metabase session token>
-        - "url": <url of the metabase instance>
+      - "token": <your metabase session token>
+      - "url": <url of the metabase instance>
+
+### Pre-commit setup
+
+There is a pre-commit hook setup included which can optionally be installed in the development
+environment. This is done by running.
+
+        npm run init_pre_commit
+
+This setup uses `husky` to run formatting and linting (see [below](#quality-assurance)) on each
+commit automatically. It is recommended to make use of this in particular, because part of the
+CI is checking the same things.
 
 ## Control sheet setup
 
@@ -71,8 +81,8 @@ After the setup, the library proved the additional `Metabase` menu in the Spread
 1. Click on `Extensions` and then `Apps Script`. This opens a project tied to this Spreadsheet.
 
 1. In the sidebar click on `Editor` and then on `+` next to `Library`. Add the script ID of the metbase-to-google
-    script project. As Version you can either pick the deployment you created or pick HEAD for development purpouses.
-    Not that the library usage wont work unless there is at least one deployment even if HEAD is selected.
+   script project. As Version you can either pick the deployment you created or pick HEAD for development purpouses.
+   Not that the library usage wont work unless there is at least one deployment even if HEAD is selected.
 
 1. Name the library for instance `metabasetogoogle`
 
@@ -109,3 +119,7 @@ them on the source folder.
 - unit testing: `jasmine`
 
         npm run test
+
+All three quality assurance tools together for our CI checks. This means CI should pass if
+these three checks pass locally. Additionally formatting and linting are part of the pre-commit hook
+setup (see [above](#pre-commit-setup)).
