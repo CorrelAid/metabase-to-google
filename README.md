@@ -20,32 +20,32 @@ After the setup, the library proved the additional `Metabase` menu in the Spread
 
 ## Dev Env Setup
 
-1.  Clone the repository
+1. Clone the repository
 
         git clone git@github.com/CorrelAid/metabase-to-google.git
 
-1.  Install dependencies
+1. Install dependencies
 
         npm install
 
-1.  Create clasp configuration file
+1. Create clasp configuration file
 
         cp .clasp.json.example .clasp.json
 
-1.  Create a google apps script project [here](https://script.google.com/home). **NOTE**: You have to [enable Google Apps Script for your user](https://script.google.com/home/usersettings) if you haven't done it already.
+1. Create a google apps script project [here](https://script.google.com/home). **NOTE**: You have to [enable Google Apps Script for your user](https://script.google.com/home/usersettings) if you haven't done it already.
 
-1.  Update `.clasp.json` with the fill path to the `src` folder and with a google script ID for a
+1. Update `.clasp.json` with the fill path to the `src` folder and with a google script ID for a
     standalone script.
 
-1.  Sign into google with clasp.
+1. Sign into google with clasp.
 
         clasp login
 
-1.  Push the local project to google apps script.
+1. Push the local project to google apps script.
 
         clasp push
 
-1.  Configure google apps script properties (key-value pairs).
+1. Configure google apps script properties (key-value pairs).
 
     - `clasp open`
     - got to "Project Settings"
