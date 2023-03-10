@@ -22,32 +22,32 @@ After the setup, the library proved the additional `Metabase` menu in the Spread
 
 ## Dev Env Setup
 
-1. Clone the repository
+1.  Clone the repository
 
         git clone git@github.com/CorrelAid/metabase-to-google.git
 
-1. Install dependencies
+1.  Install dependencies
 
         npm install
 
-1. Create clasp configuration file
+1.  Create clasp configuration file
 
         cp .clasp.json.example .clasp.json
 
-1. Create a google apps script project [here](https://script.google.com/home). **NOTE**: You have to [enable Google Apps Script for your user](https://script.google.com/home/usersettings) if you haven't done it already.
+1.  Create a google apps script project [here](https://script.google.com/home). **NOTE**: You have to [enable Google Apps Script for your user](https://script.google.com/home/usersettings) if you haven't done it already.
 
-1. Update `.clasp.json` with the fill path to the `src` folder and with a google script ID for a
+1.  Update `.clasp.json` with the fill path to the `src` folder and with a google script ID for a
     standalone script.
 
-1. Sign into google with clasp.
+1.  Sign into google with clasp.
 
         clasp login
 
-1. Push the local project to google apps script.
+1.  Push the local project to google apps script.
 
         clasp push
 
-1. Configure google apps script properties (key-value pairs).
+1.  Configure google apps script properties (key-value pairs).
 
     - `clasp open`
     - got to "Project Settings"
@@ -130,9 +130,11 @@ setup (see [above](#pre-commit-setup)).
 
 In case you want to quickly setup a Metabase instance for testing purposes (or for operating it on a relatively low budget for the duration of a project), a few beginner-friendly alternatives exist:
 
-> However, both services require you to provide credit card / payment details despite the free-tier tracks
+> However, such services may require you to provide credit card / payment details despite the free-tier tracks. Even if they don't such requirements change frequently for
 
-- `Railway.app` (🔗 [https://railway.app/](https://railway.app/)) is a Heroku-like service and offers a free-tier (5€ free budget / 500 hours free per month). They provide a [🔗 1-click setup template for Metabase](https://railway.app/new/template/L22H6p). The template itself is [documented here](https://railway.app/template/L22H6p).
+    free tiers.
+
+- `Railway.app` (🔗 [https://railway.app/](https://railway.app/)) is a Heroku-like service and offers a free-tier (5€ free budget / 500 hours free per month). They provide a [🔗 1-click setup template for Metabase](https://railway.app/new/template/L22H6p). The template itself is [documented here](https://railway.app/template/L22H6p). (As of March 23, no credit card required)
 - `Render.com` (🔗 [https://render.com/](https://render.com/)) is a bit more complex than Railway but offers similar services, as well as a free tier (750 free hours / month). They also provide a [1-click deploy template for metabase](https://render.com/docs/deploy-metabase). On the free tier, Render will sent inactive instances to sleep after 15 minutes, so that there might be a delay of 30 seconds for each cold start / resuming activities.
 
 These two approaches should be sufficient to quickly spin up your own Metabase instance. If you've identified another beginner-friendly approach, please extend this list by submitting a pull request.
