@@ -1,43 +1,53 @@
 const {MetabaseClient} = require('../../src/metabase-client');
 
-describe('Client', function() {
+describe('Client', function () {
   let client;
   let userPropSpy;
   let urlFetcherSpy;
 
-  beforeEach(function() {
-    userPropSpy = jasmine.createSpyObj('userProperties',
-      {
-        'getKeys': [],
-        'getProperty': null,
-        'setProperty': null,
-      },
-    );
+  beforeEach(function () {
+    userPropSpy = jasmine.createSpyObj('userProperties', {
+      getKeys: [],
+      getProperty: null,
+      setProperty: null,
+    });
     urlFetcherSpy = jasmine.createSpy();
-    urlFetcherSpy.and.returnValue(mockResponse(200, {'id': 'fake_token'}));
+    urlFetcherSpy.and.returnValue(mockResponse(200, {id: 'fake_token'}));
   });
 
-  it('should initialize wo token', function() {
+  it('should initialize wo token', function () {
     client = new MetabaseClient(
-      'user', 'pwd', 'url', userPropSpy, urlFetcherSpy,
+      'user',
+      'pwd',
+      'url',
+      userPropSpy,
+      urlFetcherSpy,
     );
     expect(userPropSpy.getKeys).toHaveBeenCalled();
     expect(client.token).toBeUndefined();
   });
 
-  it('should initialize with token', function() {
+  it('should initialize with token', function () {
     userPropSpy.getKeys.and.returnValue(['token']);
     userPropSpy.getProperty.and.returnValue('fake_token');
     client = new MetabaseClient(
-      'user', 'pwd', 'url', userPropSpy, urlFetcherSpy,
+      'user',
+      'pwd',
+      'url',
+      userPropSpy,
+      urlFetcherSpy,
     );
     expect(userPropSpy.getKeys).toHaveBeenCalled();
     expect(client.token).toEqual('fake_token');
   });
 
-  it('should fetch and store token', function() {
+  it('should fetch and store token', function () {
     client = new MetabaseClient(
-      'user', 'pwd', 'url', userPropSpy, urlFetcherSpy,
+      'user',
+      'pwd',
+      'url',
+      userPropSpy,
+      urlFetcherSpy,
     );
     expect(client.token).toBeUndefined();
 
@@ -47,13 +57,17 @@ describe('Client', function() {
     expect(client.token).toEqual('fake_token');
   });
 
-  it('should fetch token as part of fetch', function() {
+  it('should fetch token as part of fetch', function () {
     urlFetcherSpy.and.returnValues(
-      mockResponse(200, {'id': 'fake_token'}),
-      mockResponse(200, {'other': 'payload'}),
+      mockResponse(200, {id: 'fake_token'}),
+      mockResponse(200, {other: 'payload'}),
     );
     client = new MetabaseClient(
-      'user', 'pwd', 'url', userPropSpy, urlFetcherSpy,
+      'user',
+      'pwd',
+      'url',
+      userPropSpy,
+      urlFetcherSpy,
     );
     resp = client.authorizedFetch('www.fake_url.com');
     expect(urlFetcherSpy).toHaveBeenCalledTimes(2);
@@ -61,30 +75,36 @@ describe('Client', function() {
     expect(resp.other).toEqual('payload');
   });
 
-  it('should not fetch token as part of fetch if present', function() {
+  it('should not fetch token as part of fetch if present', function () {
     userPropSpy.getKeys.and.returnValue(['token']);
     userPropSpy.getProperty.and.returnValue('fake_token');
-    urlFetcherSpy.and.returnValues(
-      mockResponse(200, {'other': 'payload'}),
-    );
+    urlFetcherSpy.and.returnValues(mockResponse(200, {other: 'payload'}));
     client = new MetabaseClient(
-      'user', 'pwd', 'url', userPropSpy, urlFetcherSpy,
+      'user',
+      'pwd',
+      'url',
+      userPropSpy,
+      urlFetcherSpy,
     );
     resp = client.authorizedFetch('www.fake_url.com');
     expect(urlFetcherSpy).toHaveBeenCalledTimes(1);
     expect(resp.other).toEqual('payload');
   });
 
-  it('should fetch token as part of fetch if present but expired', function() {
+  it('should fetch token as part of fetch if present but expired', function () {
     userPropSpy.getKeys.and.returnValue(['token']);
     userPropSpy.getProperty.and.returnValue('fake_token');
     urlFetcherSpy.and.returnValues(
       mockResponse(401, {}),
-      mockResponse(200, {'id': 'other_token'}),
-      mockResponse(200, {'other': 'payload'}),
+      mockResponse(200, {id: 'other_token'}),
+      mockResponse(200, {other: 'payload'}),
     );
     client = new MetabaseClient(
-      'user', 'pwd', 'url', userPropSpy, urlFetcherSpy,
+      'user',
+      'pwd',
+      'url',
+      userPropSpy,
+      urlFetcherSpy,
     );
     resp = client.authorizedFetch('www.fake_url.com');
     expect(urlFetcherSpy).toHaveBeenCalledTimes(3);
@@ -101,7 +121,7 @@ describe('Client', function() {
  */
 function mockResponse(statusCode = 200, payload) {
   return {
-    'getResponseCode': () => statusCode,
-    'toString': () => JSON.stringify(payload),
+    getResponseCode: () => statusCode,
+    toString: () => JSON.stringify(payload),
   };
 }
