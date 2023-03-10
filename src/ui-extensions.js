@@ -95,7 +95,7 @@ function previewQuery(id) {
   const scriptProperties = PropertiesService.getUserProperties();
   const user = scriptProperties.getProperty('user');
   const password = scriptProperties.getProperty('password');
-  const metabaseUrl = scriptProperties.getProperty('password');
+  const metabaseUrl = scriptProperties.getProperty('metabaseUrl');
 
   const client = new MetabaseClient(user, password, metabaseUrl);
 
@@ -120,7 +120,7 @@ function processCredentials(values) {
 
   const user = scriptProperties.getProperty('user');
   const password = scriptProperties.getProperty('password');
-  const metabaseUrl = scriptProperties.getProperty('password');
+  const metabaseUrl = scriptProperties.getProperty('metabaseUrl');
   const client = new MetabaseClient(user, password, metabaseUrl);
   const allCards = getAllCards(client);
   console.log(allCards);
