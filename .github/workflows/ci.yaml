@@ -15,12 +15,12 @@ jobs:
         with:
           node-version: '16'
 
-      - name: Install dependencies 
+      - name: Install dependencies
         run: |
           npm install
 
       - name: Run formatter and linter and tests
         run: |
-          npx prettier src/ --check
+          npm run format_check 
           npm run lint
           npm run test
