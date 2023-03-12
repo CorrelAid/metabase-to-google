@@ -3,6 +3,7 @@
 [![Stargazers][stars-shield]][stars-url]
 [![Issues][issues-shield]][issues-url]
 [![MIT License][license-shield]][license-url]
+
 # Metabase API & Google Apps Script: Live-Connected Data Flow Metabase -> Google Sheets
 
 ## What is this project about?
