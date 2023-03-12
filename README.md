@@ -153,4 +153,4 @@ These two approaches should be sufficient to quickly spin up your own Metabase i
 [issues-shield]: https://img.shields.io/github/issues/CorrelAid/metabase-to-google.svg?style=for-the-badge
 [issues-url]: https://github.com/CorrelAid/metabase-to-google/issues
 [license-shield]: https://img.shields.io/github/license/CorrelAid/metabase-to-google.svg?style=for-the-badge
-[license-url]: https://github.com/CorrelAid/metabase-to-google/blob/master/LICENSE.txt
+[license-url]: https://github.com/CorrelAid/metabase-to-google/blob/master/LICENSE
