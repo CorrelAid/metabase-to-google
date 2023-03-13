@@ -1,3 +1,9 @@
+[![Contributors][contributors-shield]][contributors-url]
+[![Forks][forks-shield]][forks-url]
+[![Stargazers][stars-shield]][stars-url]
+[![Issues][issues-shield]][issues-url]
+[![MIT License][license-shield]][license-url]
+
 # Metabase API & Google Apps Script: Live-Connected Data Flow Metabase -> Google Sheets
 
 ## What is this project about?
@@ -138,3 +144,14 @@ In case you want to quickly setup a Metabase instance for testing purposes (or f
 - `Render.com` (🔗 [https://render.com/](https://render.com/)) is a bit more complex than Railway but offers similar services, as well as a free tier (750 free hours / month). They also provide a [1-click deploy template for metabase](https://render.com/docs/deploy-metabase). On the free tier, Render will sent inactive instances to sleep after 15 minutes, so that there might be a delay of 30 seconds for each cold start / resuming activities.
 
 These two approaches should be sufficient to quickly spin up your own Metabase instance. If you've identified another beginner-friendly approach, please extend this list by submitting a pull request.
+
+[contributors-shield]: https://img.shields.io/github/contributors/CorrelAid/metabase-to-google.svg?style=for-the-badge
+[contributors-url]: https://github.com/CorrelAid/metabase-to-google/graphs/contributors
+[forks-shield]: https://img.shields.io/github/forks/CorrelAid/metabase-to-google.svg?style=for-the-badge
+[forks-url]: https://github.com/CorrelAid/metabase-to-google/network/members
+[stars-shield]: https://img.shields.io/github/stars/CorrelAid/metabase-to-google.svg?style=for-the-badge
+[stars-url]: https://github.com/CorrelAid/metabase-to-google/stargazers
+[issues-shield]: https://img.shields.io/github/issues/CorrelAid/metabase-to-google.svg?style=for-the-badge
+[issues-url]: https://github.com/CorrelAid/metabase-to-google/issues
+[license-shield]: https://img.shields.io/github/license/CorrelAid/metabase-to-google.svg?style=for-the-badge
+[license-url]: https://github.com/CorrelAid/metabase-to-google/blob/master/LICENSE
