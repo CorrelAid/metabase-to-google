@@ -11,10 +11,11 @@
 function onOpen(e, libraryName) {
   const ui = SpreadsheetApp.getUi();
 
-  ui.createMenu('Metabse')
+  ui.createMenu('Metabase')
     .addItem('Initialize Metabase', `${libraryName}.initializeMetabase`)
     .addItem('Preview Query', `${libraryName}.queryPreviewInput`)
     .addItem('Delete User Data', `${libraryName}.deleteUserData`)
+    .addItem('Get All cards', `${libraryName}.getListOfCardsInput`)
     .addToUi();
 }
 
@@ -107,6 +108,16 @@ function previewQuery(id) {
 
 /* eslint-disable no-unused-vars */
 /**
+/**
+ * Gets the list of cards (collection) into the sheet.
+ */
+function getListOfCardsInput() {
+  const ui = SpreadsheetApp.getUi();
+    processCredentials([0, 1,'https://metabase.citizensforeurope.org']);
+};
+
+/* eslint-disable no-unused-vars */
+/**
  * Stores user credentials in user properties for future use.
  *  @param {Array.<string>} values - Array containing username, password
  */
@@ -120,11 +131,17 @@ function processCredentials(values) {
 
   const user = scriptProperties.getProperty('user');
   const password = scriptProperties.getProperty('password');
-  const metabaseUrl = scriptProperties.getProperty('password');
+  const metabaseUrl = scriptProperties.getProperty('metabaseUrl');
   const client = new MetabaseClient(user, password, metabaseUrl);
   const allCards = getAllCards(client);
   console.log(allCards);
   SpreadsheetApp.getActiveSheet()
-    .getRange(`A1:C${allCards.length}`)
-    .setValues(allCards);
-}
+  .getRange(`B1:D${allCards.length}`)
+  .setValues(allCards);
+  SpreadsheetApp.getActiveSheet()
+  .getRange(`A2:A${allCards.length}`)
+  .insertCheckboxes();
+  const headers = [['Create Report']];
+  SpreadsheetApp.getActiveSheet()
+  .getRange(1, 1, 1, 1).setValues(headers);
+};
