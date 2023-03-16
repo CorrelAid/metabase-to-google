@@ -5,7 +5,7 @@
  * This should be used to define the corresponding onOpen
  * trigger in a Apps script connected to a spreadSheet.
  *
- * @param {object} e - onOpne event (unused)
+ * @param {object} e - onOpen event (unused)
  * @param {string} libraryName - Name the GS in the Spreadsheet setup.
  */
 function onOpen(e, libraryName) {
@@ -15,7 +15,8 @@ function onOpen(e, libraryName) {
     .addItem('Initialize Metabase', `${libraryName}.initializeMetabase`)
     .addItem('Preview Query', `${libraryName}.queryPreviewInput`)
     .addItem('Delete User Data', `${libraryName}.deleteUserData`)
-    .addItem('Get All cards', `${libraryName}.getListOfCardsInput`)
+    .addItem('Get All cards', `${libraryName}.getListOfCards`)
+    .addItem('Uncheck Checkboxes and Clear Formats', `${libraryName}.uncheckAndClear`)
     .addToUi();
 }
 
@@ -61,7 +62,6 @@ function initializeMetabase() {
 
 /* eslint-disable no-unused-vars */
 /**
-/**
  * Prompt to preview a metabase query.
  */
 function queryPreviewInput() {
@@ -96,7 +96,7 @@ function previewQuery(id) {
   const scriptProperties = PropertiesService.getUserProperties();
   const user = scriptProperties.getProperty('user');
   const password = scriptProperties.getProperty('password');
-  const metabaseUrl = scriptProperties.getProperty('password');
+  const metabaseUrl = scriptProperties.getProperty('metabaseUrl');
 
   const client = new MetabaseClient(user, password, metabaseUrl);
 
@@ -106,20 +106,28 @@ function previewQuery(id) {
   fillDataAndChart(sheet, results.data, results.name);
 }
 
-/* eslint-disable no-unused-vars */
 /**
-/**
- * Gets the list of cards (collection) into the sheet.
+ * Gets the list of cards (collection) into the overview table (bound sheet).
  */
-function getListOfCardsInput() {
+function getListOfCards() {
   const ui = SpreadsheetApp.getUi();
     processCredentials([0, 1,'https://metabase.citizensforeurope.org']);
+};
+
+/**
+ * Unchecks all checkboxes and clears sheet formatting.
+ */
+function uncheckAndClear() {
+  const ui = SpreadsheetApp.getUi();
+    uncheckAndClearFormats();
 };
 
 /* eslint-disable no-unused-vars */
 /**
  * Stores user credentials in user properties for future use.
- *  @param {Array.<string>} values - Array containing username, password
+ * Gets all cards into the active sheet (bound sheet), 
+ * and inserts checkboxes in column A (first column).
+ * @param {Array.<string>} values - Array containing username, password and metabaseUrl
  */
 function processCredentials(values) {
   /* eslint-enable no-unused-vars */
@@ -144,4 +152,13 @@ function processCredentials(values) {
   const headers = [['Create Report']];
   SpreadsheetApp.getActiveSheet()
   .getRange(1, 1, 1, 1).setValues(headers);
+};
+
+/**
+ * Uncheck all ckeckboxes and clear all sheet formatting.
+ */
+function uncheckAndClearFormats() {
+  const sheet = SpreadsheetApp.getActiveSheet();
+  sheet.getRange('A:A').uncheck();
+  sheet.clearFormats();
 };
