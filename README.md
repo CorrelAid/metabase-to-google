@@ -1,3 +1,9 @@
+[![Contributors][contributors-shield]][contributors-url]
+[![Forks][forks-shield]][forks-url]
+[![Stargazers][stars-shield]][stars-url]
+[![Issues][issues-shield]][issues-url]
+[![MIT License][license-shield]][license-url]
+
 # Metabase API & Google Apps Script: Live-Connected Data Flow Metabase -> Google Sheets
 
 ## What is this project about?
@@ -11,6 +17,8 @@ saved Metabase queries (called cards in Metabase) through the
 
 The goal is to make it easy to keep the exported Metabase data in the spreadsheets up date.
 Currently this is done by making updates very easy, but in the future it might even be automated entirely ('live-connected').
+
+> See [Metabase Test Instance Setup](#metabase-test-instance-setup) for instructions on how to quickly setup your own Metabase instance.
 
 ## This Repository
 
@@ -123,3 +131,27 @@ them on the source folder.
 All three quality assurance tools together for our CI checks. This means CI should pass if
 these three checks pass locally. Additionally formatting and linting are part of the pre-commit hook
 setup (see [above](#pre-commit-setup)).
+
+## Metabase Test Instance Setup
+
+In case you want to quickly setup a Metabase instance for testing purposes (or for operating it on a relatively low budget for the duration of a project), a few beginner-friendly alternatives exist:
+
+> However, such services may require you to provide credit card / payment details despite the free-tier tracks. Even if they don't such requirements change frequently for
+
+    free tiers.
+
+- `Railway.app` (🔗 [https://railway.app/](https://railway.app/)) is a Heroku-like service and offers a free-tier (5€ free budget / 500 hours free per month). They provide a [🔗 1-click setup template for Metabase](https://railway.app/new/template/L22H6p). The template itself is [documented here](https://railway.app/template/L22H6p). (As of March 23, no credit card required)
+- `Render.com` (🔗 [https://render.com/](https://render.com/)) is a bit more complex than Railway but offers similar services, as well as a free tier (750 free hours / month). They also provide a [1-click deploy template for metabase](https://render.com/docs/deploy-metabase). On the free tier, Render will sent inactive instances to sleep after 15 minutes, so that there might be a delay of 30 seconds for each cold start / resuming activities.
+
+These two approaches should be sufficient to quickly spin up your own Metabase instance. If you've identified another beginner-friendly approach, please extend this list by submitting a pull request.
+
+[contributors-shield]: https://img.shields.io/github/contributors/CorrelAid/metabase-to-google.svg?style=for-the-badge
+[contributors-url]: https://github.com/CorrelAid/metabase-to-google/graphs/contributors
+[forks-shield]: https://img.shields.io/github/forks/CorrelAid/metabase-to-google.svg?style=for-the-badge
+[forks-url]: https://github.com/CorrelAid/metabase-to-google/network/members
+[stars-shield]: https://img.shields.io/github/stars/CorrelAid/metabase-to-google.svg?style=for-the-badge
+[stars-url]: https://github.com/CorrelAid/metabase-to-google/stargazers
+[issues-shield]: https://img.shields.io/github/issues/CorrelAid/metabase-to-google.svg?style=for-the-badge
+[issues-url]: https://github.com/CorrelAid/metabase-to-google/issues
+[license-shield]: https://img.shields.io/github/license/CorrelAid/metabase-to-google.svg?style=for-the-badge
+[license-url]: https://github.com/CorrelAid/metabase-to-google/blob/master/LICENSE

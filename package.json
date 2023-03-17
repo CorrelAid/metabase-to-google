@@ -9,15 +9,16 @@
   "engineStrict": true,
   "scripts": {
     "test": "npx jasmine",
-    "format": "npx prettier -w src/",
+    "format": "npx prettier -w src/ spec/ .github/ *.md package.json",
+    "format_check": "npx prettier --check src/ spec/ .github/ *.md package.json",
     "quick_format": "npx pretty-quick --staged",
-    "lint": "npx eslint --fix src/",
+    "lint": "npx eslint --fix src/ spec/",
     "precommit": "run-s quick_format lint",
     "init_pre_commit": "husky install"
   },
   "contributors": [
     "@fubits",
-    "KonradUdoHannes <konrad.woelms@gmail.com",
+    "KonradUdoHannes <konrad.woelms@gmail.com>",
     "ariaguia"
   ],
   "license": "MIT",
