@@ -15,9 +15,11 @@ function onOpen(e, libraryName) {
     .addItem('Initialize Metabase', `${libraryName}.initializeMetabase`)
     .addItem('Preview Query', `${libraryName}.queryPreviewInput`)
     .addItem('Delete User Data', `${libraryName}.deleteUserData`)
-    .addItem('Get All cards', `${libraryName}.getListOfCards`)
-    .addItem('Process Selected Cards', `${libraryName}.processSelected`)
-    .addItem('Uncheck and Clear Selected', `${libraryName}.uncheckAndClear`)
+    .addItem(
+      'Create Reports from Selected Cards',
+      `${libraryName}.createReportFromSelected`,
+    )
+    .addItem('Uncheck All Checkboxes', `${libraryName}.uncheckAllCheckboxes`)
     .addToUi();
 }
 
@@ -88,30 +90,6 @@ function queryPreviewInput() {
 }
 
 /**
- * Gets the list of cards (collection) into the overview table (bound sheet).
- */
-function getListOfCards() {
-  const ui = SpreadsheetApp.getUi();
-  processCredentials([0, 1, 'https://metabase.citizensforeurope.org']);
-}
-
-/**
- * Runs previewQuery() function for each checkbox checked (card selected).
- */
-function processSelected() {
-  const ui = SpreadsheetApp.getUi();
-  processSelectedRows();
-}
-
-/**
- * Unchecks all checkboxes and clears sheet formatting.
- */
-function uncheckAndClear() {
-  const ui = SpreadsheetApp.getUi();
-  uncheckAndClearSelected();
-}
-
-/**
  *  Run a metabase query and create an example sheet.
  *  @param {int} id - Id of the query to run
  */
@@ -127,63 +105,77 @@ function previewQuery(id) {
 
   const results = getQueryResult(client, id);
 
-  const sheet = spreadSheet.insertSheet(`${results.name}`);
+  const sheet = spreadSheet.insertSheet(`preview id ${id}`);
   fillDataAndChart(sheet, results.data, results.name);
 }
 
-/* eslint-disable no-unused-vars */
 /**
- * Stores user credentials in user properties for future use.
- * Gets all cards into the active sheet (bound sheet),
- * and inserts checkboxes in column A (first column).
+ * Processes user input, stores it, and initializes a Google Sheet document
  * @param {Array.<string>} values - Array containing username,
  * password and metabaseUrl
  */
+/* eslint-disable no-unused-vars */
+// eslint-disable-next-line require-jsdoc
 function processCredentials(values) {
-  /* eslint-enable no-unused-vars */
+  storeUserInput(values);
+  insertDataIntoSheet();
+}
+
+/**
+ * Stores user credentials in user properties for future use.
+ * @param {Array.<string>} values - Array containing username,
+ * password and metabaseUrl
+ */
+function storeUserInput(values) {
+  /* eslint-disable no-unused-vars */
   console.log('executing backend function');
   const scriptProperties = PropertiesService.getUserProperties();
   scriptProperties.setProperty('user', values[0]);
   scriptProperties.setProperty('password', values[1]);
   scriptProperties.setProperty('metabaseUrl', values[2]);
+}
 
+/**
+ * Initializes a Sheet and inserts a list of cards
+ * from a metabase collection into the sheet.
+ */
+function insertDataIntoSheet() {
+  const scriptProperties = PropertiesService.getUserProperties();
   const user = scriptProperties.getProperty('user');
   const password = scriptProperties.getProperty('password');
   const metabaseUrl = scriptProperties.getProperty('metabaseUrl');
+
   const client = new MetabaseClient(user, password, metabaseUrl);
+
   const allCards = getAllCards(client);
   console.log(allCards);
-  SpreadsheetApp.getActiveSheet()
-    .getRange(`B1:D${allCards.length}`)
-    .setValues(allCards);
-  SpreadsheetApp.getActiveSheet()
-    .getRange(`A2:A${allCards.length}`)
-    .insertCheckboxes();
-  const headers = [['Create Report']];
-  SpreadsheetApp.getActiveSheet()
-    .getRange(1, 1, 1, 1).setValues(headers);
+  const sheet = SpreadsheetApp.getActiveSheet();
+  sheet.getRange(`B1:D${allCards.length}`).setValues(allCards);
+  sheet.getRange(`A2:A${allCards.length}`).insertCheckboxes();
+  sheet.getRange(1, 1, 1, 1).setValues([['create_report']]);
 }
 
 /**
- * Perform a simple action if a checkbox has being ckecked,
- * i.e. if the checkbox evaluates to True.
+ * Creates a report preview for each checkbox marked.
  */
-function processSelectedRows() {
+/* eslint-disable no-unused-vars */
+// eslint-disable-next-line require-jsdoc
+function createReportFromSelected() {
   const rows = SpreadsheetApp.getActiveSheet().getDataRange().getValues();
-  const headers = rows.shift();
-  rows.forEach(function(row) {
+  rows.shift();
+  rows.forEach(function (row) {
     if (row[0]) {
       previewQuery(row[3]);
     }
-  } );
+  });
 }
 
 /**
- * Uncheck all ckeckboxes and clear all sheet formatting.
+ * Uncheck all ckeckboxes.
  */
-function uncheckAndClearSelected() {
-  const range1 = SpreadsheetApp.getActiveSheet();
-  range1.getRange('A:A').uncheck();
-  const range2 = SpreadsheetApp.getActiveSheet();
-  range2.getRange('E:E').clear();
+/* eslint-disable no-unused-vars */
+// eslint-disable-next-line require-jsdoc
+function uncheckAllCheckboxes() {
+  const sheet = SpreadsheetApp.getActiveSheet();
+  sheet.getRange('A:A').uncheck();
 }
