@@ -94,19 +94,11 @@ function queryPreviewInput() {
  *  @param {int} id - Id of the query to run
  */
 function previewQuery(id) {
-  const spreadSheet = SpreadsheetApp.getActiveSpreadsheet();
-
-  const scriptProperties = PropertiesService.getUserProperties();
-  const user = scriptProperties.getProperty('user');
-  const password = scriptProperties.getProperty('password');
-  const metabaseUrl = scriptProperties.getProperty('metabaseUrl');
-
-  const client = new MetabaseClient(user, password, metabaseUrl);
-
-  const results = getQueryResult(client, id);
-
-  const sheet = spreadSheet.insertSheet(`preview id ${id}`);
-  fillDataAndChart(sheet, results.data, results.name);
+  insertSheetWithQueryResults(
+    id,
+    'preview',
+    SpreadsheetApp.getActiveSpreadsheet(),
+  );
 }
 
 /* eslint-disable no-unused-vars */
@@ -154,6 +146,27 @@ function insertDataIntoSheet() {
   sheet.getRange(1, 1, 1, 1).setValues([['create_report']]);
 }
 
+/**
+ * Inserts a new sheet into the given spreadsheet with data
+ * and chart generated from query results.
+ * @param {int} id - Id of the query to run.
+ * @param {String} sheetName - name of the sheet to be inserted.
+ * @param {Spreadsheet} spreadSheet - reference to Spreadsheet object.
+ */
+function insertSheetWithQueryResults(id, sheetName, spreadSheet) {
+  const scriptProperties = PropertiesService.getUserProperties();
+  const user = scriptProperties.getProperty('user');
+  const password = scriptProperties.getProperty('password');
+  const metabaseUrl = scriptProperties.getProperty('metabaseUrl');
+
+  const client = new MetabaseClient(user, password, metabaseUrl);
+
+  const results = getQueryResult(client, id);
+
+  const sheet = spreadSheet.insertSheet(sheetName);
+  fillDataAndChart(sheet, results.data, results.name);
+}
+
 /* eslint-disable no-unused-vars */
 /**
  * Creates a report preview for each checkbox marked.
@@ -164,7 +177,11 @@ function createReportFromSelected() {
   rows.shift();
   rows.forEach(function (row) {
     if (row[0]) {
-      previewQuery(row[3]);
+      insertSheetWithQueryResults(
+        row[3],
+        `preview card id: ${row[3]}`,
+        SpreadsheetApp.getActiveSpreadsheet(),
+      );
     }
   });
 }
