@@ -117,6 +117,7 @@ function previewQuery(id) {
 /* eslint-disable no-unused-vars */
 // eslint-disable-next-line require-jsdoc
 function processCredentials(values) {
+  /* eslint-enable no-unused-vars */
   storeUserInput(values);
   insertDataIntoSheet();
 }
