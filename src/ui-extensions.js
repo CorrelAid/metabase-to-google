@@ -109,13 +109,12 @@ function previewQuery(id) {
   fillDataAndChart(sheet, results.data, results.name);
 }
 
+/* eslint-disable no-unused-vars */
 /**
  * Processes user input, stores it, and initializes a Google Sheet document
  * @param {Array.<string>} values - Array containing username,
  * password and metabaseUrl
  */
-/* eslint-disable no-unused-vars */
-// eslint-disable-next-line require-jsdoc
 function processCredentials(values) {
   /* eslint-enable no-unused-vars */
   storeUserInput(values);
@@ -155,12 +154,12 @@ function insertDataIntoSheet() {
   sheet.getRange(1, 1, 1, 1).setValues([['create_report']]);
 }
 
+/* eslint-disable no-unused-vars */
 /**
  * Creates a report preview for each checkbox marked.
  */
-/* eslint-disable no-unused-vars */
-// eslint-disable-next-line require-jsdoc
 function createReportFromSelected() {
+  /* eslint-enable no-unused-vars */
   const rows = SpreadsheetApp.getActiveSheet().getDataRange().getValues();
   rows.shift();
   rows.forEach(function (row) {
@@ -170,12 +169,12 @@ function createReportFromSelected() {
   });
 }
 
+/* eslint-disable no-unused-vars */
 /**
  * Uncheck all ckeckboxes.
  */
-/* eslint-disable no-unused-vars */
-// eslint-disable-next-line require-jsdoc
 function uncheckAllCheckboxes() {
+  /* eslint-enable no-unused-vars */
   const sheet = SpreadsheetApp.getActiveSheet();
   sheet.getRange('A:A').uncheck();
 }
