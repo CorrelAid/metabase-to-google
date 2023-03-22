@@ -128,7 +128,6 @@ function processCredentials(values) {
  * password and metabaseUrl
  */
 function storeUserInput(values) {
-  /* eslint-disable no-unused-vars */
   console.log('executing backend function');
   const scriptProperties = PropertiesService.getUserProperties();
   scriptProperties.setProperty('user', values[0]);
