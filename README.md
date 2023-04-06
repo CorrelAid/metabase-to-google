@@ -136,9 +136,7 @@ setup (see [above](#pre-commit-setup)).
 
 In case you want to quickly setup a Metabase instance for testing purposes (or for operating it on a relatively low budget for the duration of a project), a few beginner-friendly alternatives exist:
 
-> However, such services may require you to provide credit card / payment details despite the free-tier tracks. Even if they don't such requirements change frequently for
-
-    free tiers.
+> However, such services may require you to provide credit card / payment details despite the free-tier tracks. Even if they don't such requirements change frequently for free tiers.
 
 - `Railway.app` (🔗 [https://railway.app/](https://railway.app/)) is a Heroku-like service and offers a free-tier (5€ free budget / 500 hours free per month). They provide a [🔗 1-click setup template for Metabase](https://railway.app/new/template/L22H6p). The template itself is [documented here](https://railway.app/template/L22H6p). (As of March 23, no credit card required)
 - `Render.com` (🔗 [https://render.com/](https://render.com/)) is a bit more complex than Railway but offers similar services, as well as a free tier (750 free hours / month). They also provide a [1-click deploy template for metabase](https://render.com/docs/deploy-metabase). On the free tier, Render will sent inactive instances to sleep after 15 minutes, so that there might be a delay of 30 seconds for each cold start / resuming activities.
