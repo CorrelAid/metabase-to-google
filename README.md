@@ -143,6 +143,10 @@ In case you want to quickly setup a Metabase instance for testing purposes (or f
 
 These two approaches should be sufficient to quickly spin up your own Metabase instance. If you've identified another beginner-friendly approach, please extend this list by submitting a pull request.
 
+# Partner organization
+
+This project was conducted in collaboration with the [Vielfalt entscheidet](https://citizensforeurope.org/advocating_for_inclusion_page/) project of Citizens For Europe gUG. 
+
 [contributors-shield]: https://img.shields.io/github/contributors/CorrelAid/metabase-to-google.svg?style=for-the-badge
 [contributors-url]: https://github.com/CorrelAid/metabase-to-google/graphs/contributors
 [forks-shield]: https://img.shields.io/github/forks/CorrelAid/metabase-to-google.svg?style=for-the-badge
